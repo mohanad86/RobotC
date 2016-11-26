@@ -139,103 +139,63 @@ GPIOWrite(int pin, int value)
 	return(0);
 }
  
-int
-main(int argc, char *argv[])
+
+		  
+int main(int argc, char argv[])
 {
 	int repeat = 1000;
- 
-	/*
-	 * Enable GPIO pins
-	 */
-	
-	//if (-1 == GPIOExport(POUT5) || -1 == GPIOExport(PIN5))
-	//	return(1);
-	
-	
-	//if (-1 == GPIOExport(POUT4) || -1 == GPIOExport(PIN4))
-	//	return(1);
-	
+
 	 
-	//if (-1 == GPIOExport(POUT3) || -1 == GPIOExport(PIN3))
-	//	return(1);
-		
-	//if (-1 == GPIOExport(POUT2) || -1 == GPIOExport(PIN2))
-	//	return(1);
- 
-	 
+	//Enable GPIO pins
 	if (-1 == GPIOExport(POUT) || -1 == GPIOExport(PIN))
 		return(1);
 		
-     if (-1 == GPIOExport(POUT2) || -1 == GPIOExport(PIN2))
+    if (-1 == GPIOExport(POUT2) || -1 == GPIOExport(PIN2))
 		return(1);
-	/*
-	 * Set GPIO directions
-	 */
+	
+	//Set GPIO directions
+	
 	if (1 == GPIODirection(POUT, OUT) || 1 == GPIODirection(PIN, IN))
 		return(2);
     
     if (-1 == GPIODirection(POUT2, OUT) || -1 == GPIODirection(PIN2, IN))
 		return(1);
- 
-    //if (-1 == GPIODirection(POUT3, OUT) || -1 == GPIODirection(PIN3, IN))
-	//	return(1);
 		
-    //if (-1 == GPIODirection(POUT4, OUT) || -1 == GPIODirection(PIN4, IN))
-	//	return(1);
-    
-    //if (-1 == GPIODirection(POUT5, OUT) || -1 == GPIODirection(PIN5, IN))
-	//	return(1);
- 
+
 	do {
-		/*
-		 * Write GPIO value
-		 */
+		//Write GPIO value
+		
+		 	
 		if (1 == GPIOWrite(POUT, repeat % 2))
 			return(4);
-	
-	    if (-1 == GPIOWrite(POUT2, repeat % 2))
+	    if (-1 == GPIOWrite(POUT2, repeat % 6))
 			return(3);
- 
-        //if (-1 == GPIOWrite(POUT3, repeat % 2))
-		//	return(3);
- 
-        //if (-1 == GPIOWrite(POUT4, repeat % 2))
-			//return(3);
 
-        //if (-1 == GPIOWrite(POUT5, repeat % 2))
-		//	return(3);
-  
-		/*
-		 * Read GPIO value
-		 */
+		//Read GPIO value
+		 
+		
 		printf("I'm reading %d in GPIO %d\n", GPIORead(PIN), PIN);
 		printf("I'm reading %d in GPIO %d\n", GPIORead(PIN2), PIN2);
-		//printf("I'm reading %d in GPIO %d\n", GPIORead(PIN3), PIN3);
-		//printf("I'm reading %d in GPIO %d\n", GPIORead(PIN4), PIN4);
-		//printf("I'm reading %d in GPIO %d\n", GPIORead(PIN5), PIN5);
-		usleep(10 * 1000);
+
+		usleep(10 * 100);
 	}
+	
+		 
+		 
 	while (repeat--);
- 
-	/*
-	 * Disable GPIO pins
-	 */
+    
+	//Disable GPIO pins
+	
 	if (1 == GPIOUnexport(POUT) || 1 == GPIOUnexport(PIN))
 		return(2);
 		
 	if (-1 == GPIOUnexport(POUT2) || -1 == GPIOUnexport(PIN2))
 		return(2);
 
-    //if (-1 == GPIOUnexport(POUT3) || -1 == GPIOUnexport(PIN3))
-		//return(2);
- 	 
- 	// if (-1 == GPIOUnexport(POUT4) || -1 == GPIOUnexport(PIN4))
-		//return(2);
- 	
- 	//if (-1 == GPIOUnexport(POUT5) || -1 == GPIOUnexport(PIN5))
-	//	return(2);
- 		
- 
+
 	return(0);
 }
+
+
+
 
