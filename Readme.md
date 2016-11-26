@@ -19,7 +19,7 @@ $ sudo apt-get install gedit
 ```sh 
 $ git clone git@github.com:mohanad86/robotC.git
 $ git pull 
-$ cd webrobo
+$ cd robotC
 ``` 
 Then you are in :)
 
