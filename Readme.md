@@ -1,6 +1,14 @@
 # SumoRobot (cubietruck) setup controls using C language  
 
 
+# Explanation for how the motors working and the signals 
+- The image show the ms (milliseconds) which is how to control the motor and the direction of the motor depend on it 
+ 
+![alt text](https://github.com/mohanad86/robotC/blob/master/images/ServoMotorControl.png)
+
+
+
+
 
 ### If you are using Ubuntu platform
  
