@@ -141,60 +141,110 @@ GPIOWrite(int pin, int value)
  
 
 		  
-int main(int argc, char argv[])
+int main(int argc, char *argv[])
 {
-	int repeat = 1000;
+    int user_command;
+	int repeat = 100; 
+	int motor_speed_a = 1500; // 1.5ms for the motors to work  
+	int motor_speed_b = 1500; 
+	while (1) {
+	    while (1) {
+		    printf("Enter a correct value \n:");
+            user_command = getchar( );
+            putchar( user_command );
+            if (user_command == 'w') {
+                printf("Go\n" + user_command);
+                repeat = 100;
+                motor_speed_a = 2000;
+                motor_speed_b = 2000;
+                break;
+                
+            }
+            if (user_command == 'a') {
+                repeat = 100;
+                motor_speed_a = 1000;
+                motor_speed_b = 1000;
+                break;
+            }
+            if (user_command == 's') {
+                repeat = 50;
+                motor_speed_a = 1000;
+                motor_speed_b = 2000;
+                break;
+            }
+            if (user_command == 'd') {
+                repeat = 100;
+                motor_speed_a = 1000;
+                motor_speed_b = 2000;
+                
+                break;
+            }
+            //this will exit the program and it's repeat one time only  
+            if (user_command == 'x') {
+                repeat = 1;
+                break;
+            }
+            //if the value enterd not the same it will print wrong value
+           printf( "Wrong value\n");
+	   }
 
-	 
-	//Enable GPIO pins
-	if (-1 == GPIOExport(POUT) || -1 == GPIOExport(PIN))
-		return(1);
-		
-    if (-1 == GPIOExport(POUT2) || -1 == GPIOExport(PIN2))
-		return(1);
-	
-	//Set GPIO directions
-	
-	if (1 == GPIODirection(POUT, OUT) || 1 == GPIODirection(PIN, IN))
-		return(2);
-    
-    if (-1 == GPIODirection(POUT2, OUT) || -1 == GPIODirection(PIN2, IN))
-		return(1);
-		
-
-	do {
-		//Write GPIO value
-		
-		 	
-		if (1 == GPIOWrite(POUT, repeat % 2))
-			return(4);
-	    if (-1 == GPIOWrite(POUT2, repeat % 6))
-			return(3);
-
-		//Read GPIO value
-		 
-		
-		printf("I'm reading %d in GPIO %d\n", GPIORead(PIN), PIN);
-		printf("I'm reading %d in GPIO %d\n", GPIORead(PIN2), PIN2);
-
-		usleep(10 * 100);
+     	while (repeat--) {
+     	    //forward
+     	    if ( user_command == 'w') {
+     	        GPIOWrite(POUT, 1);
+     	        GPIOWrite(POUT2, 1);
+     	        usleep(motor_speed_b);
+     	        GPIOWrite(POUT2, 0);
+     	        usleep(motor_speed_a - motor_speed_b);
+     	        GPIOWrite(POUT, 0);
+     	        usleep(20000-motor_speed_a);
+     	    }
+     	    //back
+     	    if ( user_command == 's') {
+                GPIOWrite(POUT, 1);
+     	        GPIOWrite(POUT2, 1);     	        
+     	        usleep(motor_speed_a);  
+     	        GPIOWrite(POUT, 0);
+     	        GPIOWrite(POUT2, 0);
+     	        usleep(20000-motor_speed_a);
+     	    }
+     	    //right
+     	     if (user_command == 'd') {
+     	         GPIOWrite(POUT, 1);
+     	        GPIOWrite(POUT2, 1);
+     	        usleep(motor_speed_a);
+     	        GPIOWrite(POUT, 0);
+     	        usleep(motor_speed_b - motor_speed_a);
+     	        GPIOWrite(POUT2, 0);
+     	        usleep(20000-motor_speed_a);
+     	    }
+     	    //left
+     	     if (user_command == 'a') {
+     	      GPIOWrite(POUT2, 1);
+     	       GPIOWrite(POUT, 1);
+     	        usleep(motor_speed_b);
+     	        GPIOWrite(POUT2, 1);
+     	        GPIOWrite(POUT, 1);
+     	        usleep(20000-motor_speed_b);
+     	    }
+     	    // exit the program
+     	    if ( user_command == 'x') { 
+     	        return 0;
+     	    }
+		    //reading the value in pins
+		   // printf("I'm reading %d in GPIO %d\n", GPIORead(PIN), PIN);
+		   // printf("I'm reading %d in GPIO %d\n", GPIORead(PIN2), PIN2);
+		    
+             
+	    }
 	}
-	
-		 
-		 
-	while (repeat--);
-    
-	//Disable GPIO pins
-	
-	if (1 == GPIOUnexport(POUT) || 1 == GPIOUnexport(PIN))
-		return(2);
-		
-	if (-1 == GPIOUnexport(POUT2) || -1 == GPIOUnexport(PIN2))
-		return(2);
-
-
-	return(0);
 }
+	
+    
+
+ 
+
+
 
 
 
